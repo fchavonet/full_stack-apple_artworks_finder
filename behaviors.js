@@ -1,3 +1,25 @@
+document.addEventListener("DOMContentLoaded", () => {
+	const header = document.querySelector("header");
+	const main = document.querySelector("main");
+	const searchForm = document.getElementById("search-container");
+
+	// Adjusts main padding based on header height.
+	function updateMainPadding() {
+		const headerHeight = header.getBoundingClientRect().height;
+		main.style.paddingTop = `calc(${headerHeight}px + 2rem)`;
+	}
+
+	updateMainPadding();
+	window.addEventListener("resize", updateMainPadding);
+
+	// Prevents form submission from reloading the page.
+	searchForm.addEventListener("submit", (event) => {
+		event.preventDefault();
+		searchArtworks();
+	});
+});
+
+// Fetches album artworks from the iTunes API.
 async function searchArtworks() {
 	// Get the user's search input and trim whitespace.
 	const searchValue = document.getElementById("search-input").value.trim();
@@ -47,12 +69,12 @@ async function searchArtworks() {
 			// Create a card with album image, title, and artist.
 			const resultCard = document.createElement("div");
 			resultCard.innerHTML = `
-				<a href="${artworkHighResUrl}" target="_blank">
-						<img src="${artworkPreviewUrl}" alt="${albumName} artwork">
-				</a>
-				<h2>${artistName}</h2>
-				<h3>${albumName}</h3>
-			`;
+                <a href="${artworkHighResUrl}" target="_blank">
+                	<img src="${artworkPreviewUrl}" alt="${albumName} artwork">
+                </a>
+                <h2>${artistName}</h2>
+                <h3>${albumName}</h3>
+            `;
 
 			// Append the result card to the container.
 			resultsContainer.appendChild(resultCard);

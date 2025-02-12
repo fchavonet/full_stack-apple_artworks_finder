@@ -7,3 +7,76 @@
     padding: 0;
     scroll-behavior: smooth;
 }
+
+/* VARIABLES */
+:root {
+    --background-dark: rgb(30, 30, 30);
+    --text-color: rgb(245, 245, 245);
+}
+
+/* GENERAL */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--background-dark);
+}
+
+/* HEADER */
+header {
+    position: fixed;
+    width: 100%;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(90deg, rgba(235, 0, 65, 0.9) 0%, rgba(145, 0, 255, 0.9) 100%);
+    backdrop-filter: blur(0.5rem);
+    -webkit-backdrop-filter: blur(0.5rem);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+header h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    color: var(--text-color);
+}
+
+#search-container {
+    position: relative;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    border: none;
+    border-radius: 2rem;
+    outline: none;
+    background-color: var(--background-dark);
+}
+
+button {
+    position: absolute;
+    right: 0.5rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* RESULTS */
