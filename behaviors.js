@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Adjusts main padding based on header height.
 	function updateMainPadding() {
 		const headerHeight = header.getBoundingClientRect().height;
-		main.style.paddingTop = `calc(${headerHeight}px + 2rem)`;
+		main.style.paddingTop = `calc(${headerHeight}px)`;
 	}
 
 	updateMainPadding();
@@ -24,12 +24,6 @@ async function searchArtworks() {
 	// Get the user's search input and trim whitespace.
 	const searchValue = document.getElementById("search-input").value.trim();
 
-	// Alert and exit if the search input is empty.
-	if (searchValue === "") {
-		alert("Please enter a search term.");
-		return;
-	}
-
 	// Build the iTunes search API URL.
 	const url = `https://itunes.apple.com/search?term=${encodeURIComponent(searchValue)}&entity=album&limit=50`;
 
@@ -42,9 +36,16 @@ async function searchArtworks() {
 		const resultsContainer = document.getElementById("results-container");
 		resultsContainer.innerHTML = "";
 
+		// Alert and exit if the search input is empty.
+		if (searchValue === "") {
+			resultsContainer.innerHTML = "";
+			alert("Please enter a search term.");
+			return;
+		}
+
 		// If no results are found, display a message and exit.
 		if (data.resultCount === 0) {
-			resultsContainer.innerHTML = `<p>No results found.</p>`;
+			resultsContainer.innerHTML = `<p id="no-result">No results found.</p>`;
 			return;
 		}
 
@@ -68,6 +69,7 @@ async function searchArtworks() {
 
 			// Create a card with album image, title, and artist.
 			const resultCard = document.createElement("div");
+			resultCard.classList.add("card");
 			resultCard.innerHTML = `
                 <a href="${artworkHighResUrl}" target="_blank">
                 	<img src="${artworkPreviewUrl}" alt="${albumName} artwork">
