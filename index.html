@@ -2,33 +2,41 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Apple Music Artwork Finder</title>
+	<title>Apple Music Artwork Finder</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="./styles.css">
+	<!-- CSS -->
+	<link rel="stylesheet" href="./styles.css">
 
-    <!-- Script -->
-    <script src="./behaviors.js" defer></script>
+	<!-- Script -->
+	<script src="./behaviors.js" defer></script>
 </head>
 
 <body>
-    <!-- HEADER -->
-    <header>
+	<!-- HEADER -->
+	<header>
+		<h1>Apple Music Artwork Finder</h1>
 
-    </header>
+		<div>
+			<input id="search-input" type="text">
 
-    <!-- MAIN -->
-    <main>
+			<button id="search-button" type="button" onclick="searchArtworks()">
+				Search
+			</button>
+		</div>
+	</header>
 
-    </main>
+	<!-- MAIN -->
+	<main>
+		<div id="results-container"></div>
+	</main>
 
-    <!-- FOOTER -->
-    <footer>
+	<!-- FOOTER -->
+	<footer>
 
-    </footer>
+	</footer>
 </body>
 
 </html>
