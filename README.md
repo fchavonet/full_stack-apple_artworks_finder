@@ -35,9 +35,7 @@ The tool allows users to search for album artworks and retrieve them in high res
 
 ## 🎓 <span id="objectives">Objectives</span>
 
-The goal of this project was to deepen my understanding of working with external APIs, particularly the iTunes API, while keeping the implementation clean and efficient. Throughout this project, I aimed to improve my DOM manipulation skills, practice asynchronous JavaScript (`fetch()` and `async`/`await`), and design a modern and responsive UI.
-<br>
-Additionally, optimizing the search experience for speed and accuracy was a key focus, ensuring a smooth and seamless user interaction.
+The goal of this project was to deepen my understanding of working with external APIs, particularly the iTunes API, while keeping the implementation clean and efficient. Throughout this project, I aimed to improve my DOM manipulation skills, practice asynchronous JavaScript (`fetch()` and `async`/`await`), and design a modern and responsive UI. Additionally, optimizing the search experience for speed and accuracy was a key focus, ensuring a smooth and seamless user interaction.
 
 ## 🔨 <span id="tech-stack">Tech stack</span>
 
