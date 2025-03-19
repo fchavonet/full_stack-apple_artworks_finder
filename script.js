@@ -1,3 +1,7 @@
+/************************
+* MUSIC ARTWORKS FINDER *
+************************/
+
 document.addEventListener("DOMContentLoaded", () => {
 	const header = document.querySelector("header");
 	const main = document.querySelector("main");
