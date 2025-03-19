@@ -90,7 +90,7 @@ git clone https://github.com/fchavonet/web-apple_music_artworks_finder.git
 You can also test the web application online by clicking [here](https://fchavonet.github.io/web-apple_music_artworks_finder/).
 
 <p align="center">
-    <img src="./assets/images/screenshpots.webp">
+    <img src="./assets/images/screenshots.webp">
 </p>
 
 ## 🔧 <span id="whats-next">What's next?</span>
