@@ -94,16 +94,46 @@ document.addEventListener("DOMContentLoaded", () => {
 				const artistName = result.artistName;
 				const albumName = result.collectionName;
 
-				// Create a card with album image, title, and artist.
+				// Create a card with spinner, album image, title, and artist.
 				const resultCard = document.createElement("div");
 				resultCard.classList.add("card");
-				resultCard.innerHTML = `
-					<a href="${artworkHighResUrl}" target="_blank">
-                		<img src="${artworkPreviewUrl}" alt="${albumName} artwork">
-                	</a>
-                	<h2>${artistName}</h2>
-                	<h3>${albumName}</h3>
-				`;
+
+				// Wrapper.
+				const wrapper = document.createElement("div");
+				wrapper.classList.add("image-wrapper");
+
+				// Spinner.
+				const spinner = document.createElement("div");
+				spinner.classList.add("spinner");
+				wrapper.appendChild(spinner);
+
+				// Album image.
+				const link = document.createElement("a");
+				link.href = artworkHighResUrl;
+				link.target = "_blank";
+
+				const imgage = document.createElement("img");
+				imgage.classList.add("artwork");
+				imgage.src = artworkPreviewUrl;
+				imgage.alt = `${albumName} artwork`;
+
+				imgage.addEventListener("load", () => {
+					spinner.remove();
+					imgage.style.opacity = "1";
+				});
+
+				link.appendChild(imgage);
+				wrapper.appendChild(link);
+				resultCard.appendChild(wrapper);
+
+				// Title.
+				const title = document.createElement("h2");
+				title.textContent = artistName;
+				resultCard.appendChild(title);
+
+				const subtitle = document.createElement("h3");
+				subtitle.textContent = albumName;
+				resultCard.appendChild(subtitle);
 
 				// Append the result card to the container.
 				resultsContainer.appendChild(resultCard);

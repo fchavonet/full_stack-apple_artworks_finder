@@ -161,6 +161,45 @@ button {
     text-overflow: ellipsis;
 }
 
+.card .image-wrapper {
+    width: 100%;
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.card .image-wrapper .spinner {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 4px solid rgba(245, 245, 245, 0.3);
+    border-top-color: var(--text-color);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    z-index: 1;
+}
+
+.card .image-wrapper img.artwork {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
 /* FOOTER */
 footer {
     width: 100%;
