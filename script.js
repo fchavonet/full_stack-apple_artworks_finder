@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Pagination state.
 	let currentSearchTerm = "";
 	let offset = 0;
-	const limit = 50;
+	const limit = 25;
 	let isLoading = false;
 
 	// Adjusts main padding based on header height.
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 
 			// Advance offset by the number of items fetched.
-			offset += data.results.length;
+			offset += limit;
 		} catch (error) {
 			// Log any errors that occur during the fetch or rendering process.
 			console.error(error);
