@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	const header = document.querySelector("header");
 	const main = document.querySelector("main");
 	const searchContainer = document.getElementById("search-container");
+	const searchInput = document.getElementById("search-input");
 	const resultsContainer = document.getElementById("results-container");
 
 	// Pagination state.
@@ -23,21 +24,68 @@ document.addEventListener("DOMContentLoaded", () => {
 	updateMainPadding();
 	window.addEventListener("resize", updateMainPadding);
 
+	// Updates URL with search term.
+	function updateURL(searchTerm) {
+		const url = new URL(window.location);
+
+		if (searchTerm) {
+			url.searchParams.set("q", searchTerm);
+		} else {
+			url.searchParams.delete("q");
+		}
+		
+		window.history.pushState({ search: searchTerm }, "", url);
+	}
+
+	// Loads search from URL parameters on page load.
+	function loadFromURL() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const searchTerm = urlParams.get("q");
+
+		if (searchTerm) {
+			searchInput.value = searchTerm;
+			currentSearchTerm = searchTerm;
+			offset = 0;
+			resultsContainer.innerHTML = "";
+
+			loadMoreArtworks();
+		}
+	}
+
+	// Handles browser back/forward navigation.
+	window.addEventListener("popstate", (event) => {
+		if (event.state && event.state.search) {
+			searchInput.value = event.state.search;
+			currentSearchTerm = event.state.search;
+			offset = 0;
+			resultsContainer.innerHTML = "";
+			loadMoreArtworks();
+		} else {
+			searchInput.value = "";
+			currentSearchTerm = "";
+			resultsContainer.innerHTML = "";
+		}
+	});
+
 	// Prevents form submission from reloading the page and starts a new search.
 	searchContainer.addEventListener("submit", (event) => {
 		event.preventDefault();
 		// Get the user's search input and trim whitespace.
-		const searchValue = document.getElementById("search-input").value.trim();
+		const searchValue = searchInput.value.trim();
 
 		// Alert and exit if the search input is empty.
 		if (searchValue === "") {
 			alert("Please enter a search term.");
 			return;
 		}
+
 		// Reset pagination and results.
 		currentSearchTerm = searchValue;
 		offset = 0;
 		resultsContainer.innerHTML = "";
+
+		// Update URL with search term.
+		updateURL(searchValue);
 
 		// Load first batch.
 		loadMoreArtworks();
@@ -54,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// Fetches album artworks from the iTunes API, page by page.
 	async function loadMoreArtworks() {
-		if (isLoading) {
+		if (isLoading || !currentSearchTerm) {
 			return;
 		}
 
@@ -148,4 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			isLoading = false;
 		}
 	}
+
+	// Load from URL on initialization.
+	loadFromURL();
 });
