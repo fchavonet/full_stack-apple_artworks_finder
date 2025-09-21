@@ -3,200 +3,281 @@
 ************************/
 
 document.addEventListener("DOMContentLoaded", () => {
-	const header = document.querySelector("header");
-	const main = document.querySelector("main");
-	const searchContainer = document.getElementById("search-container");
-	const searchInput = document.getElementById("search-input");
-	const resultsContainer = document.getElementById("results-container");
+  const header = document.querySelector("header");
+  const main = document.querySelector("main");
+  const searchContainer = document.getElementById("search-container");
+  const searchInput = document.getElementById("search-input");
+  const resultsContainer = document.getElementById("results-container");
 
-	// Pagination state.
-	let currentSearchTerm = "";
-	let offset = 0;
-	const limit = 25;
-	let isLoading = false;
+  // Pagination state.
+  let currentSearchTerm = "";
+  let offset = 0;
+  const limit = 25;
+  let isLoading = false;
 
-	// Adjusts main padding based on header height.
-	function updateMainPadding() {
-		const headerHeight = header.getBoundingClientRect().height;
-		main.style.paddingTop = `calc(${headerHeight}px)`;
-	}
+  // Adjusts main padding based on header height.
+  function updateMainPadding() {
+    const headerHeight = header.getBoundingClientRect().height;
+    main.style.paddingTop = `calc(${headerHeight}px)`;
+  }
 
-	updateMainPadding();
-	window.addEventListener("resize", updateMainPadding);
+  updateMainPadding();
+  window.addEventListener("resize", updateMainPadding);
 
-	// Updates URL with search term.
-	function updateURL(searchTerm) {
-		const url = new URL(window.location);
+  // Updates URL with search term.
+  function updateURL(searchTerm) {
+    const url = new URL(window.location);
 
-		if (searchTerm) {
-			url.searchParams.set("q", searchTerm);
-		} else {
-			url.searchParams.delete("q");
-		}
-		
-		window.history.pushState({ search: searchTerm }, "", url);
-	}
+    if (searchTerm) {
+      url.searchParams.set("q", searchTerm);
+    } else {
+      url.searchParams.delete("q");
+    }
 
-	// Loads search from URL parameters on page load.
-	function loadFromURL() {
-		const urlParams = new URLSearchParams(window.location.search);
-		const searchTerm = urlParams.get("q");
+    window.history.pushState({ search: searchTerm }, "", url);
+  }
 
-		if (searchTerm) {
-			searchInput.value = searchTerm;
-			currentSearchTerm = searchTerm;
-			offset = 0;
-			resultsContainer.innerHTML = "";
+  // Loads search from URL parameters on page load.
+  function loadFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchTerm = urlParams.get("q");
 
-			loadMoreArtworks();
-		}
-	}
+    if (searchTerm) {
+      searchInput.value = searchTerm;
+      currentSearchTerm = searchTerm;
+      offset = 0;
+      resultsContainer.innerHTML = "";
 
-	// Handles browser back/forward navigation.
-	window.addEventListener("popstate", (event) => {
-		if (event.state && event.state.search) {
-			searchInput.value = event.state.search;
-			currentSearchTerm = event.state.search;
-			offset = 0;
-			resultsContainer.innerHTML = "";
-			loadMoreArtworks();
-		} else {
-			searchInput.value = "";
-			currentSearchTerm = "";
-			resultsContainer.innerHTML = "";
-		}
-	});
+      loadMoreArtworks();
+    }
+  }
 
-	// Prevents form submission from reloading the page and starts a new search.
-	searchContainer.addEventListener("submit", (event) => {
-		event.preventDefault();
-		// Get the user's search input and trim whitespace.
-		const searchValue = searchInput.value.trim();
+  // Handles browser back/forward navigation.
+  window.addEventListener("popstate", (event) => {
+    if (event.state && event.state.search) {
+      searchInput.value = event.state.search;
+      currentSearchTerm = event.state.search;
+      offset = 0;
+      resultsContainer.innerHTML = "";
+      loadMoreArtworks();
+    } else {
+      searchInput.value = "";
+      currentSearchTerm = "";
+      resultsContainer.innerHTML = "";
+    }
+  });
 
-		// Alert and exit if the search input is empty.
-		if (searchValue === "") {
-			alert("Please enter a search term.");
-			return;
-		}
+  // Prevents form submission from reloading the page and starts a new search.
+  searchContainer.addEventListener("submit", (event) => {
+    event.preventDefault();
+    // Get the user's search input and trim whitespace.
+    const searchValue = searchInput.value.trim();
 
-		// Reset pagination and results.
-		currentSearchTerm = searchValue;
-		offset = 0;
-		resultsContainer.innerHTML = "";
+    // Alert and exit if the search input is empty.
+    if (searchValue === "") {
+      alert("Please enter a search term.");
+      return;
+    }
 
-		// Update URL with search term.
-		updateURL(searchValue);
+    // Reset pagination and results.
+    currentSearchTerm = searchValue;
+    offset = 0;
+    resultsContainer.innerHTML = "";
 
-		// Load first batch.
-		loadMoreArtworks();
-	});
+    // Update URL with search term.
+    updateURL(searchValue);
 
-	// Infinite scroll: load more when nearing bottom.
-	window.addEventListener("scroll", () => {
-		const threshold = 150;
+    // Load first batch.
+    loadMoreArtworks();
+  });
 
-		if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - threshold) {
-			loadMoreArtworks();
-		}
-	});
+  // Infinite scroll: load more when nearing bottom.
+  window.addEventListener("scroll", () => {
+    const threshold = 150;
 
-	// Fetches album artworks from the iTunes API, page by page.
-	async function loadMoreArtworks() {
-		if (isLoading || !currentSearchTerm) {
-			return;
-		}
+    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - threshold) {
+      loadMoreArtworks();
+    }
+  });
 
-		isLoading = true;
+  // Fetches artworks from the iTunes API, page by page.
+  async function loadMoreArtworks() {
+    if (isLoading || !currentSearchTerm) {
+      return;
+    }
 
-		const url = `https://itunes.apple.com/search?term=${encodeURIComponent(currentSearchTerm)}&entity=album&limit=${limit}&offset=${offset}`;
+    isLoading = true;
 
-		try {
-			const response = await fetch(url);
-			const data = await response.json();
+    // Get selected category.
+    const categorySelect = document.getElementById("category-select");
+    const selectedCategory = categorySelect.value;
 
-			// If no more results, stop.
-			if (data.resultCount === 0) {
-				if (offset === 0) {
-					resultsContainer.innerHTML = `<p id="no-result">No results found.</p>`;
-				}
+    // Map category to iTunes entity.
+    const entityMap = {
+      "music": "album",
+      "tvShow": "tvSeason",
+      "movie": "movie"
+    };
 
-				isLoading = false;
-				return;
-			}
+    const entity = entityMap[selectedCategory];
+    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(currentSearchTerm)}&entity=${entity}&limit=${limit}&offset=${offset}`;
 
-			// Sort results by artist name (alphabetically) and release date (oldest to newest).
-			const sortedResults = data.results.sort((a, b) => {
-				if (a.artistName.toLowerCase() < b.artistName.toLowerCase()) return -1;
-				if (a.artistName.toLowerCase() > b.artistName.toLowerCase()) return 1;
-				return new Date(a.releaseDate) - new Date(b.releaseDate);
-			});
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
 
-			// Create and display result cards for each album.
-			sortedResults.forEach(result => {
-				// Generate artwork URLs.
-				const baseUrl = result.artworkUrl100.replace(/\/[^\/]*$/, "/");
-				const artworkPreviewUrl = baseUrl + "250x250.jpg";
-				const artworkHighResUrl = baseUrl + "10000x10000.jpg";
+      // If no more results, stop.
+      if (data.resultCount === 0) {
+        if (offset === 0) {
+          resultsContainer.innerHTML = `<p id="no-result">No results found.</p>`;
+        }
 
-				// Album and artist details.
-				const artistName = result.artistName;
-				const albumName = result.collectionName;
+        isLoading = false;
+        return;
+      }
 
-				// Create a card with spinner, album image, title, and artist.
-				const resultCard = document.createElement("div");
-				resultCard.classList.add("card");
+      // Sort results by type: music by artist/date/album, movies/TV shows by date/name.
+      const sortedResults = data.results.sort((a, b) => {
+        const isMusic = (item) => {
+          return item.wrapperType === "collection" ||
+            item.kind === "album" ||
+            item.kind === "song" ||
+            item.primaryGenreName === "Music";
+        };
 
-				// Wrapper.
-				const wrapper = document.createElement("div");
-				wrapper.classList.add("image-wrapper");
+        const isMusicA = isMusic(a);
+        const isMusicB = isMusic(b);
 
-				// Spinner.
-				const spinner = document.createElement("div");
-				spinner.classList.add("spinner");
-				wrapper.appendChild(spinner);
+        // For music: sort by artist, then date, then album name.
+        if (isMusicA && isMusicB) {
+          const artistA = a.artistName || "";
+          const artistB = b.artistName || "";
 
-				// Album image.
-				const link = document.createElement("a");
-				link.href = artworkHighResUrl;
-				link.target = "_blank";
+          // Sort by artist name.
+          if (artistA.toLowerCase() !== artistB.toLowerCase()) {
+            return artistA.toLowerCase().localeCompare(artistB.toLowerCase());
+          }
 
-				const imgage = document.createElement("img");
-				imgage.classList.add("artwork");
-				imgage.src = artworkPreviewUrl;
-				imgage.alt = `${albumName} artwork`;
+          // If same artist, sort by release date.
+          const dateA = new Date(a.releaseDate || 0);
+          const dateB = new Date(b.releaseDate || 0);
 
-				imgage.addEventListener("load", () => {
-					spinner.remove();
-					imgage.style.opacity = "1";
-				});
+          if (dateA.getTime() !== dateB.getTime()) {
+            return dateA - dateB;
+          }
 
-				link.appendChild(imgage);
-				wrapper.appendChild(link);
-				resultCard.appendChild(wrapper);
+          // If same artist and date, sort by album name.
+          const albumA = a.collectionName || "";
+          const albumB = b.collectionName || "";
+          return albumA.toLowerCase().localeCompare(albumB.toLowerCase());
+        }
 
-				// Title.
-				const title = document.createElement("h2");
-				title.textContent = artistName;
-				resultCard.appendChild(title);
+        // For movies/TV shows: sort by release date, then by name.
+        if (!isMusicA && !isMusicB) {
+          // Sort by release date first.
+          const dateA = new Date(a.releaseDate || 0);
+          const dateB = new Date(b.releaseDate || 0);
 
-				const subtitle = document.createElement("h3");
-				subtitle.textContent = albumName;
-				resultCard.appendChild(subtitle);
+          if (dateA.getTime() !== dateB.getTime()) {
+            return dateA - dateB;
+          }
 
-				// Append the result card to the container.
-				resultsContainer.appendChild(resultCard);
-			});
+          // If same date, sort by name.
+          const nameA = a.trackName || a.collectionName || "";
+          const nameB = b.trackName || b.collectionName || "";
 
-			// Advance offset by the number of items fetched.
-			offset += limit;
-		} catch (error) {
-			// Log any errors that occur during the fetch or rendering process.
-			console.error(error);
-		} finally {
-			isLoading = false;
-		}
-	}
+          return nameA.toLowerCase().localeCompare(nameB.toLowerCase());
+        }
 
-	// Load from URL on initialization.
-	loadFromURL();
+        // Mixed content: put music first, then movies/TV shows.
+        if (isMusicA) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+
+      // Create and display result cards for each item.
+      sortedResults.forEach(result => {
+        // Generate artwork URLs based on category.
+        let artworkUrl, artistName, itemName;
+
+        if (selectedCategory === "music") {
+          artworkUrl = result.artworkUrl100;
+          artistName = result.artistName;
+          itemName = result.collectionName;
+        } else if (selectedCategory === "tvShow") {
+          artworkUrl = result.artworkUrl100;
+          artistName = result.artistName || result.collectionName;
+          itemName = result.collectionName;
+        } else {
+          artworkUrl = result.artworkUrl100;
+          artistName = result.artistName || "Movie";
+          itemName = result.trackName;
+        }
+
+        if (!artworkUrl) return;
+
+        const baseUrl = artworkUrl.replace(/\/[^\/]*$/, "/");
+        const artworkPreviewUrl = baseUrl + "250x250.jpg";
+        const artworkHighResUrl = baseUrl + "10000x10000.jpg";
+
+        // Create a card with spinner, image, title, and artist.
+        const resultCard = document.createElement("div");
+        resultCard.classList.add("card");
+        resultCard.setAttribute("data-category", selectedCategory);
+
+        // Wrapper.
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("image-wrapper");
+
+        // Spinner.
+        const spinner = document.createElement("div");
+        spinner.classList.add("spinner");
+        wrapper.appendChild(spinner);
+
+        // Image.
+        const link = document.createElement("a");
+        link.href = artworkHighResUrl;
+        link.target = "_blank";
+
+        const image = document.createElement("img");
+        image.classList.add("artwork");
+        image.src = artworkPreviewUrl;
+        image.alt = `${itemName} artwork`;
+
+        image.addEventListener("load", () => {
+          spinner.remove();
+          image.style.opacity = "1";
+        });
+
+        link.appendChild(image);
+        wrapper.appendChild(link);
+        resultCard.appendChild(wrapper);
+
+        // Title.
+        const title = document.createElement("h2");
+        title.textContent = artistName;
+        resultCard.appendChild(title);
+
+        const subtitle = document.createElement("h3");
+        subtitle.textContent = itemName;
+        resultCard.appendChild(subtitle);
+
+        // Append the result card to the container.
+        resultsContainer.appendChild(resultCard);
+      });
+
+      // Advance offset by the number of items fetched.
+      offset += limit;
+    } catch (error) {
+      // Log any errors that occur during the fetch or rendering process.
+      console.error(error);
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  // Load from URL on initialization.
+  loadFromURL();
 });

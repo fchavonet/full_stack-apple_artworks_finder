@@ -63,13 +63,59 @@ header h1 {
     color: var(--text-color);
 }
 
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.75rem;
+    }
+}
+
 #search-container {
     position: relative;
-    width: 300px;
+    width: 325px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 0.5rem;
+}
+
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.select-wrapper .bi-chevron-down {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-color);
+}
+
+#category-select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    padding: 0.75rem 3rem 0.75rem 1rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    border: none;
+    border-radius: 2rem;
+    outline: none;
+    background-color: var(--background-dark);
+    cursor: pointer;
+    min-width: 100px;
+}
+
+#category-select::-moz-focus-inner {
+    border: 0;
+}
+
+#category-select::-ms-expand {
+    display: none;
 }
 
 #search-input {
@@ -80,6 +126,8 @@ header h1 {
     border: none;
     border-radius: 2rem;
     outline: none;
+    flex: 1;
+    /* Prend l'espace restant */
     background-color: var(--background-dark);
 }
 
@@ -131,6 +179,11 @@ button {
 
 .card:hover {
     transform: scale(1.025);
+}
+
+.card[data-category="movie"] .image-wrapper,
+.card[data-category="movie"] img {
+    aspect-ratio: 2 / 3;
 }
 
 .card img {

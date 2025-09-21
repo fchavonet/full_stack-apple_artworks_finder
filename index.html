@@ -2,74 +2,85 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>Apple Music Artworks Finder</title>
+    <title>Apple Artworks Finder</title>
 
-	<!-- CSS -->
-	<link rel="stylesheet" href="./style.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./style.css">
 
-	<!-- Bootstrap icons -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-	<!-- Script -->
-	<script src="./script.js" defer></script>
+    <!-- Script -->
+    <script src="./script.js" defer></script>
 </head>
 
 <body>
-	<!-- Header -->
-	<header>
-		<h1>Apple Music Artworks Finder</h1>
+    <!-- Header -->
+    <header>
+        <h1>Apple Artworks Finder</h1>
 
-		<form id="search-container">
-			<input id="search-input" type="text" autocomplete="off">
+        <form id="search-container">
+            <div class="select-wrapper">
+                <select id="category-select">
+                    <option value="music">Music</option>
+                    <option value="tvShow">TV Show</option>
+                    <option value="movie">Movie</option>
+                </select>
 
-			<button id="search-button" type="submit">
-				<i class="bi bi-search"></i>
-			</button>
-		</form>
-	</header>
+                <i class="bi bi-chevron-down"></i>
+            </div>
 
-	<!-- Main -->
-	<main>
-		<div id="results-container"></div>
-	</main>
+            <input id="search-input" type="text" autocomplete="off">
 
-	<!-- Footer -->
-	<footer>
-		<p>Copyright © 2025 Apple Music Artworks Finder</p>
+            <button id="search-button" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
 
-		<ul>
-			<li>
-				<a href="https://www.linkedin.com/in/fchavonet/" target="_blank">
-					<i class="bi bi-linkedin"></i>&nbsp;LinkedIn
-				</a>
-			</li>
+    </header>
 
-			<li class="separator">|</li>
+    <!-- Main -->
+    <main>
+        <div id="results-container"></div>
+    </main>
 
-			<li>
-				<a href="https://github.com/fchavonet" target="_blank">
-					<i class="bi bi-github"></i>&nbsp;GitHub
-				</a>
-			</li>
+    <!-- Footer -->
+    <footer>
+        <p>Copyright © 2025 Apple Music Artworks Finder</p>
 
-			<li class="separator">|</li>
+        <ul>
+            <li>
+                <a href="https://www.linkedin.com/in/fchavonet/" target="_blank">
+                    <i class="bi bi-linkedin"></i>&nbsp;LinkedIn
+                </a>
+            </li>
 
-			<li>
-				<a href="https://www.instagram.com/pandolowitz/" target="_blank">
-					<i class="bi bi-instagram"></i>&nbsp;Instagram
-				</a>
-			</li>
-		</ul>
+            <li class="separator">|</li>
 
-		<p>
-			<i>Apple Music Artworks Finder</i> is an independent project and is not affiliated with or endorsed by Apple Inc.
-			<br>
-			All artworks are provided via the Apple iTunes API and remain the property of their respective owners.
-		</p>
-	</footer>
+            <li>
+                <a href="https://github.com/fchavonet" target="_blank">
+                    <i class="bi bi-github"></i>&nbsp;GitHub
+                </a>
+            </li>
+
+            <li class="separator">|</li>
+
+            <li>
+                <a href="https://www.instagram.com/pandolowitz/" target="_blank">
+                    <i class="bi bi-instagram"></i>&nbsp;Instagram
+                </a>
+            </li>
+        </ul>
+
+        <p>
+            <i>Apple Music Artworks Finder</i> is an independent project and is not affiliated with or endorsed by Apple Inc.
+            <br>
+            All artworks are provided via the Apple iTunes API and remain the property of their respective owners.
+        </p>
+    </footer>
 </body>
 
 </html>
