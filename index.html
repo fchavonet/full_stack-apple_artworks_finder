@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Apple Artworks Finder</title>
+    <title>iTunes Artwork Finder</title>
+    <meta name="description" content="iTunes Artwork Finder lets you search, view, and download high-resolution Apple Music album artworks.">
 
     <!-- CSS -->
     <link rel="stylesheet" href="./style.css">
+
+    <!-- daisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -17,51 +22,69 @@
     <script src="./script.js" defer></script>
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen">
     <!-- Header -->
-    <header>
-        <h1>Apple Artworks Finder</h1>
+    <header class="fixed w-full py-8 flex flex-col justify-center items-center gap-4 bg-gradient-to-r from-[rgba(235,0,65,0.9)] to-[rgba(145,0,255,0.9)] backdrop-blur-xs z-50">
+        <!-- Brand -->
+        <a class="text-2xl lg:text-4xl font-bold text-slate-50" href="">iTunes Artwork Finder</a>
 
-        <form id="search-container">
-            <div class="select-wrapper">
-                <select id="category-select">
-                    <option value="music">Music</option>
-                    <option value="tvShow">TV Show</option>
-                    <option value="movie">Movie</option>
-                </select>
+        <div class="flex flex-row justify-center items-center gap-4">
+            <!-- Srearch form -->
+            <form id="search-form" class="flex flex-row justify-center items-center">
+                <label class="hidden" for="search-input">Search</label>
 
-                <i class="bi bi-chevron-down"></i>
-            </div>
+                <div class="relative">
+                    <input id="search-input" class="input px-4 py-2 pe-10 rounded-full border-none outline-none shadow-none" type="text" placeholder="Search album..." autocomplete="off">
 
-            <input id="search-input" type="text" autocomplete="off">
+                    <button class="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer z-10" type="submit" aria-label="Search">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
 
-            <button id="search-button" type="submit">
-                <i class="bi bi-search"></i>
-            </button>
-        </form>
-
+            <!-- Theme toggle -->
+            <label class="swap swap-rotate">
+                <input id="theme-toggle" type="checkbox" class="theme-controller" value="light">
+                <i class="bi bi-sun-fill swap-on text-slate-50"></i>
+                <i class="bi bi-moon-stars-fill swap-off text-slate-50"></i>
+            </label>
+        </div>
     </header>
 
     <!-- Main -->
-    <main>
+    <main class="lg:container mx-auto pt-40 flex flex-1 flex-col justify-center items-center">
+        <!-- Search results -->
         <div id="results-container"></div>
+
+        <!-- Modal -->
+        <dialog id="modal-cover" class="modal pt-40 sm:pt-0">
+            <div class="modal-box p-4 flex flex-col justify-center items-center gap-2 rounded-2xl bg-base-100 shadow-xl">
+                <figure id="modal-figure" class="relative w-full aspect-square flex justify-center items-center bg-base-200 rounded-xl overflow-hidden"></figure>
+
+                <div class="w-full px-4 flex flex-col justify-center items-center gap-2">
+                    <h2 id="modal-artist" class="text-xl font-bold line-clamp-1">Artist</h2>
+                    <h3 id="modal-title" class="text-md line-clamp-1" Title></h3>
+                </div>
+
+                <a id="download-button" class="btn w-full mt-2 text-slate-50 rounded-full bg-gradient-to-r from-[rgba(235,0,65,0.9)] to-[rgba(145,0,255,0.9)]" href="#" target="_blank">
+                    <i class="bi bi-download me-2"></i>&nbsp;Download Artwork
+                </a>
+            </div>
+
+            <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+            </form>
+        </dialog>
     </main>
 
     <!-- Footer -->
-    <footer>
-        <p>Copyright © 2025 Apple Music Artworks Finder</p>
+    <footer class="py-4 flex flex-col justify-center items-center gap-2 bg-base-300">
+        <p>Copyright © <span id="year"></span> - iTunes Artwork Finder</p>
 
-        <ul>
+        <!-- Social media links -->
+        <ul class="flex flex-row justify-center items-center gap-2">
             <li>
-                <a href="https://www.linkedin.com/in/fchavonet/" target="_blank">
-                    <i class="bi bi-linkedin"></i>&nbsp;LinkedIn
-                </a>
-            </li>
-
-            <li class="separator">|</li>
-
-            <li>
-                <a href="https://github.com/fchavonet" target="_blank">
+                <a class="flex flex-row justify-center items-center transition-all duration-300 ease-in-out hover:-translate-y-1" href="https://github.com/fchavonet" target="_blank">
                     <i class="bi bi-github"></i>&nbsp;GitHub
                 </a>
             </li>
@@ -69,14 +92,23 @@
             <li class="separator">|</li>
 
             <li>
-                <a href="https://www.instagram.com/pandolowitz/" target="_blank">
+                <a class="flex flex-row justify-center items-center transition-all duration-300 ease-in-out hover:-translate-y-1" href="https://www.instagram.com/pandolowitz/" target="_blank">
                     <i class="bi bi-instagram"></i>&nbsp;Instagram
+                </a>
+            </li>
+
+            <li class="separator">|</li>
+
+            <li>
+                <a class="flex flex-row justify-center items-center transition-all duration-300 ease-in-out hover:-translate-y-1" href="https://www.linkedin.com/in/fchavonet/" target="_blank">
+                    <i class="bi bi-linkedin"></i>&nbsp;LinkedIn
                 </a>
             </li>
         </ul>
 
-        <p>
-            <i>Apple Music Artworks Finder</i> is an independent project and is not affiliated with or endorsed by Apple Inc.
+        <!-- Disclaimer -->
+        <p class="px-4 text-xs text-center">
+            iTunes Artwork Finder is an independent project and is not affiliated with or endorsed by Apple Inc.
             <br>
             All artworks are provided via the Apple iTunes API and remain the property of their respective owners.
         </p>
