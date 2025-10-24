@@ -72,7 +72,7 @@ You can also test the web application online by clicking [here](https://fchavone
             <picture>
                 <source media="(prefers-color-scheme: dark)" srcset="./assets/images/screenshots/desktop_page_screenshot-dark.webp">
                 <source media="(prefers-color-scheme: light)" srcset="./assets/images/screenshots/desktop_page_screenshot-light.webp">
-                <img src="./assets/images/screenshots/page_screenshot-light.webp" alt="Desktop Screenshot" width="100%">
+                <img src="./assets/images/screenshots/desktop_page_screenshot-dark.webp" alt="Desktop Screenshot" width="100%">
             </picture>
         </td>
         <td align="center">
