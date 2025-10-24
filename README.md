@@ -60,7 +60,7 @@ git clone https://github.com/fchavonet/web-apple_music_artworks_finder.git
 
 4. Browse the results and click on an album cover to view or download it in high resolution.
 
-You can also test the web application online by clicking [here](https://fchavonet.github.io/web-apple_music_artworks_finder/).
+You can also test the web application online by clicking [here](https://fchavonet.github.io/full_stack-apple_artworks_finder/).
 
 <table>
     <tr>
