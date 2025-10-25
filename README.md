@@ -23,7 +23,7 @@ The tool allows users to search for album artworks and retrieve them in high res
 ![HTML5 badge](https://img.shields.io/badge/HTML5-e34f26?logo=html5&logoColor=white&style=for-the-badge)
 ![CSS3 badge](https://img.shields.io/badge/CSS3-1572b6?logo=css&logoColor=white&style=for-the-badge)
 ![JavaScript badge](https://img.shields.io/badge/JAVASCRIPT-f7df1e?logo=javascript&logoColor=black&style=for-the-badge)
-![Tailwind badge](https://img.shields.io/badge/TAILWIND-06b6d4?logo=tailwindcss&logoColor=white&style=for-the-badge)
+![TailwindCSS badge](https://img.shields.io/badge/TAILWINDCSS-06b6d4?logo=tailwindcss&logoColor=white&style=for-the-badge)
 
 ## File Description
 
@@ -45,7 +45,7 @@ The tool allows users to search for album artworks and retrieve them in high res
     - Run the following command:
 
 ```
-git clone https://github.com/fchavonet/web-apple_music_artworks_finder.git
+git clone https://github.com/fchavonet/full_stack-itunes_artwork_finder.git
 ```
 
 2. Open the cloned repository.
@@ -60,7 +60,7 @@ git clone https://github.com/fchavonet/web-apple_music_artworks_finder.git
 
 4. Browse the results and click on an album cover to view or download it in high resolution.
 
-You can also test the project online by clicking [here](https://fchavonet.github.io/full_stack-apple_artworks_finder/).
+You can also test the project online by clicking [here](https://fchavonet.github.io/full_stack-itunes_artwork_finder/).
 
 <table>
     <tr>
