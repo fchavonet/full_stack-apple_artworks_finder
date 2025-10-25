@@ -52,7 +52,7 @@ git clone https://github.com/fchavonet/full_stack-itunes_artwork_finder.git
 
 ### Usage
 
-1. Open the `index.html` file in your browser.
+1. Open the `index.html` file in your web browser.
 
 2. Enter an album title or artist name in the search bar.
 
